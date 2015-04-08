@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<center><u><font size="30">Map Grabber</font></u></center>
+</head>
+
+
+
+<body>
+
+<script type="text/javascript">
+
+
+var file=null;
+function readJSON(file) {
+    var request = new XMLHttpRequest();
+    request.open('GET', file, false);
+    request.send(null);
+        return request.responseText;
+};
+
+var place=prompt("Welcome to map grabber! Enter place :  ");
+var plus = place.replace(/ /g,"+");
+
+
+var json1 = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+var address = plus;
+var end = "&sensor=false&key=AIzaSyD2mykrzrrs-ByHtC9FqBWxHBl9i_UwwMA";
+
+var final = json1 + address + end;
+
+var myObject = readJSON(final);
+
+
+
+// myObject = readJSON('https://maps.googleapis.com/maps/api/geocode/json?address=Amrita+Vishwa+Vidyapeetham,+Amritanagar,+%20Ettimadai,+Coimbatore%20&sensor=false&key=AIzaSyD2mykrzrrs-ByHtC9FqBWxHBl9i_UwwMA');
+
+
+
+obj = JSON && JSON.parse(myObject) || $.parseJSON(myObject); //to take latitude and longditude from json
+
+var obj = JSON.parse(myObject);
+var lat = obj.results[0].geometry.location.lat;
+var lng = obj.results[0].geometry.location.lng;
+
+
+document.write("<center> ",place,"</center>");
+document.write("<center>Latitude : ",lat ,"</center>");
+document.write(" ");
+document.write("<center>Longditude :",lng,"</center>");
+
+
+
+var zoom=prompt("Enter zoom level (ideal zoom 10 to 20) : ");
+var res = place.replace(/ /g,"%20");
+var string_url1 = "http://maps.googleapis.com/maps/api/staticmap?center=";
+
+var string_url2 = "&zoom=";
+var zoom_insert=zoom;
+var url3="&size=600x400&sensor=false";
+var url4=string_url1 + res + string_url2 + zoom_insert + url3
+
+
+document.body.innerHTML =  document.body.innerHTML + '<center><img src ='+url4+' ></center>' ;
+
+</script>
+
+
+
+</body>
+</html>
